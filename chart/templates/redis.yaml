@@ -18,7 +18,11 @@ spec:
         {{- toYaml .Values.redis | nindent 10 }}
       parameters:
         - name: redis.replica.replicaCount
+          {{ if .Values.redis.replicaCount }}
+          value: {{ .Values.redis.replicaCount | toString }}
+          {{ else }}
           value: "1"
+          {{ end }}
   destination:
     server: https://kubernetes.default.svc
     namespace: redis
