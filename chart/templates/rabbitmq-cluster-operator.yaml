@@ -15,7 +15,7 @@ spec:
     helm:
       values: |
         rabbitmq-cluster-operator:
-        {{- toYaml .Values.sparkOperator | nindent 10 }}
+        {{- toYaml .Values.rabbitmqClusterOperator | nindent 10 }}
   destination:
     server: https://kubernetes.default.svc
     namespace: rabbitmq-system
