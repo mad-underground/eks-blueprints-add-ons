@@ -17,7 +17,7 @@ spec:
         redis:
         {{- toYaml .Values.redis | nindent 10 }}
       parameters:
-        - name: replica.replicaCount
+        - name: redis.replica.replicaCount
           {{ if .Values.redis.replicaCount }}
           value: {{ .Values.redis.replicaCount }}
           {{ else }}
