@@ -1,8 +1,8 @@
-{{- if and (.Values.keda) (.Values.keda.enable) -}}
+{{- if and (.Values.consul) (.Values.consul.enable) -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: keda
+  name: consul
   namespace: {{ .Values.argoNamespace | default "argocd" }}
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -10,23 +10,18 @@ spec:
   project: {{ .Values.argoProject | default "default" }}
   source:
     repoURL: {{ .Values.repoUrl }}
-    path: add-ons/keda
+    path: add-ons/consul
     targetRevision: {{ .Values.targetRevision }}
     helm:
       values: |
-        keda:
-        {{- toYaml .Values.keda | nindent 10 }}
-      parameters:
-      - name: keda.serviceAccount.name
-        value: {{ .Values.keda.serviceAccountName }}
+        consul:
+        {{- toYaml .Values.consul | nindent 10 }}
   destination:
     server: {{ .Values.destinationServer | default "https://kubernetes.default.svc" }}
-    namespace: keda
+    namespace: consul
   syncPolicy:
     automated:
       prune: true
-    syncOptions:
-      - CreateNamespace={{ .Values.keda.createNamespace }}
     retry:
       limit: 1
       backoff:
